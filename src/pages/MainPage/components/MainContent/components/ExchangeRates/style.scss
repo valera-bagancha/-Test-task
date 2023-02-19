@@ -1,0 +1,25 @@
+.main-table-exchange {
+  width: 100%;
+  max-width: 550px;
+  margin-bottom: 30px;
+}
+
+.row {
+  display: flex;
+}
+
+.exchange-rate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgb(95, 196, 230);
+  width: 33.3%;
+  height: 70px;
+}
+
+
+@media screen and (max-width: 768px) {
+  .main-table-exchange {
+    padding: 4px;
+  }
+}

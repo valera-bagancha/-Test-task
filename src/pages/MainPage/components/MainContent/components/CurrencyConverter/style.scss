@@ -1,0 +1,41 @@
+.converter-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  width: 700px;
+}
+
+.change {
+  width: 300px;
+  display: flex;
+  justify-content: space-around;
+  align-items: end;
+}
+
+#standard-basic {
+  width: 150px;
+  padding: 7px;
+}
+
+#standard-select-currency-native {
+  height: 100%;
+  width: 50px;
+}
+
+@media screen and (max-width: 768px) {
+  .converter-box {
+    width: 350px;
+  }
+
+  .change {
+    width: 175px;
+  }
+
+  #standard-basic {
+    width: 60px;
+  }
+
+  #standard-select-currency-native {
+    width: 18px;
+  }
+}

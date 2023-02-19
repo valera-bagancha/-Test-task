@@ -1,10 +1,18 @@
-export const Loader = () => {
-  return (
-    <div className="lds-ring">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-  )
+import { FC } from 'react'
+
+import './style.scss'
+
+interface IProps {
+  className: string;
 }
+
+const Loader: FC<IProps> = ({ className }) => (
+  <div className={className}>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+)
+
+export default Loader

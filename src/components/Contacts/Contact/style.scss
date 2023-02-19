@@ -1,0 +1,10 @@
+.contacts {
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+  .contacts {
+    font-size: 12px;
+  }
+}
