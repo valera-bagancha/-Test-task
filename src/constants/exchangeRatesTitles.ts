@@ -1,0 +1,1 @@
+export const exchangeRatesTitles = ['Currency/current Data', 'Buy', 'Sell']
