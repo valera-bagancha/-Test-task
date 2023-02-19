@@ -1,37 +1,27 @@
-import { useEffect, useState, FC } from 'react'
+import { FC } from 'react'
 
-import { exchangeRatesTitles } from '../../../../constants/exchangeRatesTitles'
-import ExchangeService from '../../../../api/ExchangeService'
-import { IExchangeRate } from '../../../../types/currencies'
-import { delay } from '../../../../utils/delay'
-
-import { CurrencyConverter } from './components/CurrencyConverter'
-import ExchangeRatesTitles from './components/ExchangeRatesTitles'
-import ExchangeRatesValues from './components/ExchangeRatesValues'
-import ExchangeRates from './components/ExchangeRates'
+import CurrencyConverter from './components/CurrencyConverter'
+import ExchangeRatesTitles from './components/ExchangeRatesTable/components/ExchangeRatesTitles'
+import ExchangeRates from './components/ExchangeRatesTable'
 import Loader from '../../../../components/Loader'
 
+import { exchangeRatesTitles } from '../../../../constants/exchangeRatesTitles'
+import { useAppSelector } from '../../../../hooks/useAppSelector'
+import {
+  exchangeRatesSelector,
+  isPendingSelector,
+} from '../../../../redux/exchangeRates/selectors'
+
 import './style.scss'
+import ExchangeRatesValues from './components/ExchangeRatesTable/components/ExchangeRatesValues'
 
 const MainContent: FC = () => {
-  const [exchangeRates, setExchangeRates] = useState<IExchangeRate[]>([])
-  const [isLoading, setIsLoading] = useState(false)
-
-  useEffect(() => {
-    setIsLoading(true)
-
-    delay(1000).then(async () => {
-      const usd = await ExchangeService.getExchange()
-
-      setExchangeRates(usd)
-
-      setIsLoading(false)
-    })
-  }, [])
+  const exchangeRates = useAppSelector(exchangeRatesSelector)
+  const isPending = useAppSelector(isPendingSelector)
 
   return (
     <main className="main-content">
-      {isLoading ? (
+      {isPending ? (
         <Loader className="lds-ring" />
       ) : (
         <>

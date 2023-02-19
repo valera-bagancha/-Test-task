@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { IExchangeRate } from '../../../../../../types/currencies'
+import { IExchangeRate } from '../../../../../../../../types/currencies'
 import ExchangeRateValue from './ExchangeRateValue'
 
 interface IProps {

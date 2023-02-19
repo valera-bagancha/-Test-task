@@ -1,8 +1,8 @@
 import { FC } from 'react'
 
-import { IExchangeRate } from '../../../../../../../types/currencies'
-import TitleCell from '../../TitleCell'
+import { IExchangeRate } from '../../../../../../../../../types/currencies'
 import Cell from '../../Cell'
+import TitleCell from '../../TitleCell'
 
 interface IProps {
   exchangeRate: IExchangeRate

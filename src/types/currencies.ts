@@ -4,3 +4,8 @@ export interface IExchangeRate {
   buy: string
   sale: string
 }
+
+export interface ICurrencies {
+  value: string
+  label: string
+}

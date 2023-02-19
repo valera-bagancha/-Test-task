@@ -1,107 +1,60 @@
-import TextField from '@mui/material/TextField'
-import { useEffect, useState } from 'react'
-
+import { useCallback, useEffect, useState } from 'react'
 
 import ConvertorService from '../../../../../../api/ConvertorService'
-import { currencies } from '../../../../../../constants/currenciesList'
-import { delay } from '../../../../../../utils/delay'
-
-
+import CURRENCIES from '../../../../../../constants/currencies'
+import { currenciesList } from '../../../../../../constants/currenciesList'
+import ConverterItem from './components/ConverterItem'
+import ReverseButton from './components/ReverseButton'
 
 import './style.scss'
 
-export const CurrencyConverter = () => {
-  const [changeValue, setChangeValue] = useState<any>('')
-  const [getValue, setGetValue] = useState('')
+const CurrencyConverter = () => {
+  const [firstValue, setFirstValue] = useState('')
+  const [secondValue, setSecondValue] = useState('')
 
-  const [changeSelectValue, setChangeSelectValue] = useState<any>('USD')
-  const [getSelectValue, setGetSelectValue] = useState<any>('UAH')
-
-  const [correctedValue, setCorrected] = useState<any>([])
-
-  const changeHandler = () => {
-    setChangeValue(getValue)
-    setGetValue(changeValue)
-    setChangeSelectValue(getSelectValue)
-    setGetSelectValue(changeSelectValue)
-  }
-
-  useEffect(() => {
-    delay(3).then(async () => {
-      try {
-        const corrected = await ConvertorService.getExchangeConvertor()
-        setCorrected(corrected.new_amount)
-      } catch (error) {
-        console.log(error)
-      }
-    })
-  }, [])
-
-  console.log('correctedValue', correctedValue)
+  const [firstSelectValue, setFirstSelectValue] = useState(CURRENCIES.UAH)
+  const [secondSelectValue, setSecondSelectValue] = useState(CURRENCIES.USD)
 
   // useEffect(() => {
-  //   if (!changeValue) {
-  //     setGetValue('')
-  //   }
-  // },[changeValue])
+  //   delay(3).then(async () => {
+  //     try {
+  //       const corrected = await ConvertorService.getExchangeConvertor()
+  //       setCorrected(corrected.new_amount)
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   })
+  // }, [])
+
+  const handleReverse = useCallback(() => {
+    setFirstValue(secondValue)
+    setFirstSelectValue(secondSelectValue)
+
+    setSecondValue(firstValue)
+    setSecondSelectValue(firstSelectValue)
+  }, [secondValue, secondSelectValue])
 
   return (
     <div className="converter-box">
-      <div className="change">
-        <TextField
-          value={changeValue}
-          id="standard-basic"
-          label="Change"
-          variant="standard"
-          onChange={e => setChangeValue(e.target.value)}
-        />
-        <TextField
-          value={changeSelectValue}
-          onChange={e => setChangeSelectValue(e.target.value)}
-          id="standard-select-currency-native"
-          select
-          SelectProps={{
-            native: true,
-          }}
-          variant="standard"
-        >
-          {currencies.map(option => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </TextField>
-      </div>
-      <div>
-        <span onClick={changeHandler} className="material-symbols-outlined">
-          sync_alt
-        </span>
-      </div>
-      <div className="change">
-        <TextField
-          value={getValue}
-          id="standard-basic"
-          label="Get"
-          variant="standard"
-          onChange={e => setGetValue(e.target.value)}
-        />
-        <TextField
-          value={getSelectValue}
-          onChange={e => setGetSelectValue(e.target.value)}
-          id="standard-select-currency-native"
-          select
-          SelectProps={{
-            native: true,
-          }}
-          variant="standard"
-        >
-          {currencies.map(option => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </TextField>
-      </div>
+      <ConverterItem
+        value={firstValue}
+        inputLabel="Change"
+        selectValue={firstSelectValue}
+        selectValues={currenciesList}
+        handleChangeValue={setFirstValue}
+        handleChangeSelectValue={setFirstSelectValue}
+      />
+      <ReverseButton handleReverse={handleReverse} />
+      <ConverterItem
+        value={secondValue}
+        inputLabel="Get"
+        selectValue={secondSelectValue}
+        selectValues={currenciesList}
+        handleChangeValue={setSecondValue}
+        handleChangeSelectValue={setSecondSelectValue}
+      />
     </div>
   )
 }
+
+export default CurrencyConverter

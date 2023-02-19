@@ -1,4 +1,4 @@
-export const currencies = [
+export const currenciesList = [
   {
     value: 'USD',
     label: '$',
