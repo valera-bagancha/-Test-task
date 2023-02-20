@@ -1,19 +1,39 @@
+import { useSelector } from 'react-redux'
 import { Dispatch } from 'redux'
 
-import { setIsPending, setExchangeRates } from './index'
+import { setIsPending, setExchangeRates, setIsError, setErrorMessage } from './index'
 import ExchangeService from '../../api/ExchangeService'
+import { counterSelector } from '../counter/selectors'
 import { delay } from '../../utils/delay'
+import { setCount } from '../counter'
+import { IError } from '../../types/error'
 
-export const setExchangeRatesAsync = () => async (dispatch: Dispatch) => {
-  console.log('test')
 
-  dispatch(setIsPending(true))
+export const setExchangeRatesAsync = () => async (dispatch: Dispatch, getState: any) => {
 
-  await delay(3000)
+  try {
+    const { counter } = getState().counter
 
-  const exchangeRates = await ExchangeService.getExchange()
+    dispatch(setIsPending(true))
+  
+    await delay(3000)
+    
+    const exchangeRates = await ExchangeService.getExchange(counter)
+    
+    dispatch(setCount(counter + 1))
+  
+    dispatch(setExchangeRates(exchangeRates))
+  
+    dispatch(setIsPending(false))
+  } catch (error) {
 
-  dispatch(setExchangeRates(exchangeRates))
+    const errorMessage = error as IError
+  
+    dispatch(setErrorMessage(errorMessage.message))
 
-  dispatch(setIsPending(false))
+    dispatch(setCount(0))
+
+    dispatch(setIsError(true))
+    
+  }
 }

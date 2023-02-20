@@ -7,7 +7,7 @@ interface IProps {
 }
 
 const ExchangeRatesTable: FC<IProps> = ({ children }) => (
-  <div className="main-table-exchange">{children}</div>
+  <section className="main-table-exchange">{children}</section>
 )
 
 export default ExchangeRatesTable

@@ -5,7 +5,7 @@ interface IProps {
 }
 
 const ReverseButton: FC<IProps> = ({ handleReverse }) => (
-  <button type="button">
+  <button type="button" className='switcher'>
     <span onClick={handleReverse} className="material-symbols-outlined">
       sync_alt
     </span>

@@ -1,8 +1,10 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 import ConvertorService from '../../../../../../api/ConvertorService'
 import CURRENCIES from '../../../../../../constants/currencies'
 import { currenciesList } from '../../../../../../constants/currenciesList'
+import { exchangeRatesSelector } from '../../../../../../redux/exchangeRates/selectors'
 import ConverterItem from './components/ConverterItem'
 import ReverseButton from './components/ReverseButton'
 
@@ -15,16 +17,65 @@ const CurrencyConverter = () => {
   const [firstSelectValue, setFirstSelectValue] = useState(CURRENCIES.UAH)
   const [secondSelectValue, setSecondSelectValue] = useState(CURRENCIES.USD)
 
+  const exchangeRates = useSelector(exchangeRatesSelector) 
+  
+  useMemo(() => {
+    const value = exchangeRates.find((obj) => firstSelectValue === obj.ccy && secondSelectValue === obj.base_ccy)
+  } ,[])
+
+
+  // useMemo(() => {
+  //   if (!firstValue) return
+  //   if (firstSelectValue == 'UAH' && secondSelectValue == 'USD') {
+  //     const value = +firstValue/+(exchangeRates[1].buy)
+  //     const currentValue = value.toFixed(2)
+  
+  //     setSecondValue(currentValue)
+  //   }
+
+  //   if (firstSelectValue == 'USD' && secondSelectValue == 'UAH') {
+  //     const value = +firstValue*+(exchangeRates[1].buy)
+  //     const currentValue = value.toFixed(2)
+  
+  //     setSecondValue(currentValue)
+  //   }
+
+  //   if (firstSelectValue == 'UAH' && secondSelectValue == 'EUR') {
+  //     const value = +firstValue/+(exchangeRates[0].buy)
+  //     const currentValue = value.toFixed(2)
+  
+  //     setSecondValue(currentValue)
+  //   }
+
+  //   if (firstSelectValue == 'EUR' && secondSelectValue == 'UAH') {
+  //     const value = +firstValue*+(exchangeRates[0].buy)
+  //     const currentValue = value.toFixed(2)
+  
+  //     setSecondValue(currentValue)
+  //   }
+
+  //   if (firstSelectValue == 'EUR' && secondSelectValue == 'USD') {  
+  //     const factor = +(exchangeRates[0].buy)/+(exchangeRates[1].buy) 
+  //     const value = +firstValue*factor
+  //     const currentValue = value.toFixed(2)
+
+  //     setSecondValue(currentValue)
+  //   }
+
+  //   if (firstSelectValue == 'USD' && secondSelectValue == 'EUR') {  
+  //     const factor = +(exchangeRates[1].buy)/+(exchangeRates[0].buy) 
+  //     const value = +firstValue*factor
+  //     const currentValue = value.toFixed(2)
+
+  //     setSecondValue(currentValue)
+  //   }
+  // },[firstSelectValue, secondSelectValue, firstValue])
+
   // useEffect(() => {
-  //   delay(3).then(async () => {
-  //     try {
-  //       const corrected = await ConvertorService.getExchangeConvertor()
-  //       setCorrected(corrected.new_amount)
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   })
-  // }, [])
+  //   if (!firstValue) {
+  //     setSecondValue('')
+  //   }
+  // }, [firstValue])
 
   const handleReverse = useCallback(() => {
     setFirstValue(secondValue)
@@ -35,7 +86,7 @@ const CurrencyConverter = () => {
   }, [secondValue, secondSelectValue])
 
   return (
-    <div className="converter-box">
+    <section className="converter-box">
       <ConverterItem
         value={firstValue}
         inputLabel="Change"
@@ -53,7 +104,7 @@ const CurrencyConverter = () => {
         handleChangeValue={setSecondValue}
         handleChangeSelectValue={setSecondSelectValue}
       />
-    </div>
+    </section>
   )
 }
 
