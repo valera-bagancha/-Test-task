@@ -1,9 +1,7 @@
-import { useSelector } from 'react-redux'
 import { Dispatch } from 'redux'
 
 import { setIsPending, setExchangeRates, setIsError, setErrorMessage } from './index'
 import ExchangeService from '../../api/ExchangeService'
-import { counterSelector } from '../counter/selectors'
 import { delay } from '../../utils/delay'
 import { setCount } from '../counter'
 import { IError } from '../../types/error'
